@@ -133,7 +133,12 @@ prompt_pure_preprompt_render() {
 	[[ -n $prompt_pure_state[username] ]] && preprompt_parts+=($prompt_pure_state[username])
 
 	# Set the path.
-	preprompt_parts+=('%F{${prompt_pure_colors[path]}}%~%f')
+	preprompt_parts+=('%F{${prompt_pure_colors[path]}}%1d%f')
+
+	# aws profile
+	if [[ -n $AWS_PROFILE ]]; then
+		preprompt_parts+=("%F{$prompt_pure_colors[aws:profile]}"'${AWS_PROFILE}${PURE_AWS_SYMBOL:-☁}%f')
+	fi
 
 	# Git branch and dirty status info.
 	typeset -gA prompt_pure_vcs_info
@@ -151,11 +156,6 @@ prompt_pure_preprompt_render() {
 	# Git stash symbol (if opted in).
 	if [[ -n $prompt_pure_git_stash ]]; then
 		preprompt_parts+=('%F{$prompt_pure_colors[git:stash]}${PURE_GIT_STASH_SYMBOL:-≡}%f')
-	fi
-
-	# aws profile
-	if [[ -n $AWS_PROFILE ]]; then
-		preprompt_parts+=("%F{$prompt_pure_colors[aws:profile]}"'${PURE_AWS_SYMBOL:-☁}${AWS_PROFILE}%f')
 	fi
 
 	# Execution time.
@@ -812,7 +812,7 @@ prompt_pure_setup() {
 	# Combine the parts with conditional logic. First the `:+` operator is
 	# used to replace `compare` either with `main` or an ampty string. Then
 	# the `:-` operator is used so that if `compare` becomes an empty
-	# string, it is replaced with `secondary`.
+	# string, it is replaced with `secondary`.c
 	local ps4_symbols='${${'${ps4_parts[compare]}':+"'${ps4_parts[main]}'"}:-"'${ps4_parts[secondary]}'"}'
 
 	# Improve the debug prompt (PS4), show depth by repeating the +-sign and
