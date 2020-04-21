@@ -137,7 +137,7 @@ prompt_pure_preprompt_render() {
 
 	# aws profile
 	if [[ -n $AWS_PROFILE ]]; then
-		preprompt_parts+=("%F{$prompt_pure_colors[aws:profile]}"'${AWS_PROFILE}${PURE_AWS_SYMBOL:-☁}%f')
+		preprompt_parts+=("%F{$prompt_pure_colors[aws:profile]}"'${AWS_PROFILE}${PURE_AWS_SYMBOL:-☁ }%f')
 	fi
 
 	# Git branch and dirty status info.
