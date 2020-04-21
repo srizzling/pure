@@ -155,7 +155,7 @@ prompt_pure_preprompt_render() {
 
 	# aws profile
 	if [[ -n $AWS_PROFILE ]]; then
-		preprompt_parts+=('%F{$prompt_pure_colors[aws:profile]}${PURE_AWS_SYMBOL:-≡☁}${AWS_PROFILE}%f')
+		preprompt_parts+=("%F{$prompt_pure_colors[aws:profile]}"'${PURE_AWS_SYMBOL:-☁}${AWS_PROFILE}%f')
 	fi
 
 	# Execution time.
