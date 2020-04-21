@@ -153,6 +153,11 @@ prompt_pure_preprompt_render() {
 		preprompt_parts+=('%F{$prompt_pure_colors[git:stash]}${PURE_GIT_STASH_SYMBOL:-≡}%f')
 	fi
 
+	# aws profile
+	if [[ -n $AWS_PROFILE ]]; then
+		preprompt_parts+=('%F{$prompt_pure_colors[aws:profile]}${PURE_AWS_SYMBOL:-≡☁}${AWS_PROFILE}%f')
+	fi
+
 	# Execution time.
 	[[ -n $prompt_pure_cmd_exec_time ]] && preprompt_parts+=('%F{$prompt_pure_colors[execution_time]}${prompt_pure_cmd_exec_time}%f')
 
@@ -217,9 +222,6 @@ prompt_pure_precmd() {
 		psvar[12]="${VIRTUAL_ENV:t}"
 		export VIRTUAL_ENV_DISABLE_PROMPT=12
 	fi
-
-	# print aws profile
-	psvar[11]=$AWS_PROFILE
 
 	# Make sure VIM prompt is reset.
 	prompt_pure_reset_prompt_symbol
@@ -759,6 +761,8 @@ prompt_pure_setup() {
 		user                 242
 		user:root            default
 		virtualenv           242
+		aws:profile 		 242
+
 	)
 	prompt_pure_colors=("${(@kv)prompt_pure_colors_default}")
 
@@ -774,6 +778,9 @@ prompt_pure_setup() {
 		add-zle-hook-widget zle-line-finish prompt_pure_reset_vim_prompt_widget
 		add-zle-hook-widget zle-keymap-select prompt_pure_update_vim_prompt_widget
 	fi
+
+	# attach aws profile here
+	PROMPT='%(12V.%F{$prompt_pure_colors[virtualenv]}%12v%f .)'
 
 	# If a virtualenv is activated, display it in grey.
 	PROMPT='%(12V.%F{$prompt_pure_colors[virtualenv]}%12v%f .)'
