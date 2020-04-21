@@ -218,6 +218,9 @@ prompt_pure_precmd() {
 		export VIRTUAL_ENV_DISABLE_PROMPT=12
 	fi
 
+	# print aws profile
+	psvar[11]=$AWS_PROFILE
+
 	# Make sure VIM prompt is reset.
 	prompt_pure_reset_prompt_symbol
 
